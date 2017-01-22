@@ -18,3 +18,5 @@ SOURCES += main.cpp\
 HEADERS  += output.h
 
 FORMS    += output.ui
+
+LIBS += -ltins

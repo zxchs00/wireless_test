@@ -15,8 +15,13 @@ public:
     explicit Output(QWidget *parent = 0);
     ~Output();
 
+private slots:
+
+    void on_start_clicked();
+
 private:
     Ui::Output *ui;
+    bool starting = false;
 };
 
 #endif // OUTPUT_H
