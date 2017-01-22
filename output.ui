@@ -120,16 +120,6 @@
     <string>n</string>
    </property>
   </widget>
-  <widget class="QTextBrowser" name="ap">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>60</y>
-     <width>381</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
@@ -173,18 +163,46 @@ p, li { white-space: pre-wrap; }
     <string>AP - station</string>
    </property>
   </widget>
+  <widget class="QTableWidget" name="ap">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>381</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="rowCount">
+    <number>0</number>
+   </property>
+   <column>
+    <property name="text">
+     <string>BSSID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>beacon</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>SSID</string>
+    </property>
+   </column>
+  </widget>
   <zorder>start</zorder>
   <zorder>label</zorder>
   <zorder>label_2</zorder>
   <zorder>label_3</zorder>
   <zorder>label_4</zorder>
-  <zorder>ap</zorder>
   <zorder>label_5</zorder>
   <zorder>ap2st</zorder>
   <zorder>label_6</zorder>
   <zorder>ch</zorder>
   <zorder>bssid</zorder>
   <zorder>dev</zorder>
+  <zorder>ap</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

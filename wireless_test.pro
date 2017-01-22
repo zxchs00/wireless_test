@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        output.cpp
+        output.cpp \
+    iamsniffer.cpp
 
-HEADERS  += output.h
+HEADERS  += output.h \
+    iamsniffer.h
 
 FORMS    += output.ui
 
