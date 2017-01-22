@@ -2,6 +2,7 @@
 #define OUTPUT_H
 
 #include <QWidget>
+#include <QTimer>
 
 namespace Ui {
 class Output;
@@ -14,6 +15,9 @@ class Output : public QWidget
 public:
     explicit Output(QWidget *parent = 0);
     ~Output();
+public slots:
+    void startSniff();
+
 
 private slots:
 
@@ -22,6 +26,7 @@ private slots:
 private:
     Ui::Output *ui;
     bool starting = false;
+    QTimer* toSniff;
 };
 
 #endif // OUTPUT_H
