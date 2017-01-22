@@ -1,9 +1,11 @@
-#include <iostream>
-
-using namespace std;
+#include "output.h"
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
-    cout << "Hello World!" << endl;
-    return 0;
+    QApplication a(argc, argv);
+    Output w;
+    w.show();
+
+    return a.exec();
 }
