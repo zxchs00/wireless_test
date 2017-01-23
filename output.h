@@ -5,10 +5,15 @@
 #include <QTimer>
 #include <QTableWidget>
 #include <QMessageBox>
+#include <QObject>
+#include <QThread>
+#include <QString>
 
 #include <tins/tins.h>
 
-#include "iamsniffer.h"
+#include "mysniff.h"
+
+Q_DECLARE_METATYPE(std::string)
 
 using namespace Tins;
 
@@ -19,15 +24,20 @@ class Output;
 class Output : public QWidget
 {
     Q_OBJECT
-
+    QThread workerThread;
 public:
     explicit Output(QWidget *parent = 0);
     ~Output();
+signals:
+    void start_sniff(const std::string& iface);
+public slots:
 
 private slots:
-    bool handler(PDU& pdu);
     void startSniff();
     void on_start_clicked();
+    void new_add(QString addr, QString ssid);
+    void exist_add(QString addr, QString ssid);
+    void error_print(std::runtime_error& e);
 
 private:
     typedef Dot11::address_type address_type;
