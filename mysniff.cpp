@@ -35,6 +35,7 @@ bool MySniff::callback(PDU &pdu)
                 emit add_new(QString::fromStdString(addr.to_string()), QString::fromStdString(ssid));
             }
             else{
+                //std::cout << "exist" << std::endl;
                 emit add_new(QString::fromStdString(addr.to_string()), QString::fromStdString(ssid));
 
             }
@@ -43,6 +44,7 @@ bool MySniff::callback(PDU &pdu)
         catch (std::runtime_error& e) {
             // No ssid, just ignore it.
             emit print_error(e);
+            // error exception
         }
     }
     return true;

@@ -92,21 +92,25 @@ void Output::on_start_clicked()
 
 void Output::new_add(QString addr, QString ssid)
 {
-    int row = ui->ap->rowCount();
-    ui->ap->insertRow(row);
-    ui->ap->setItem(row,0,new QTableWidgetItem(addr));
-    QTableWidgetItem* tmp = new QTableWidgetItem();
-    tmp->setData(Qt::EditRole, 1);
-    ui->ap->setItem(row,1,tmp);
-    ui->ap->setItem(row,2,new QTableWidgetItem(ssid));
-    std::cout << "doit " << ssid.toStdString() << std::endl;
+    QList<QTableWidgetItem*> exist = ui->ap->findItems(addr,Qt::MatchExactly);
+    if(exist.empty()){
+        int row = ui->ap->rowCount();
+        ui->ap->insertRow(row);
+        ui->ap->setItem(row,0,new QTableWidgetItem(addr));
+        QTableWidgetItem* tmp = new QTableWidgetItem();
+        tmp->setData(Qt::EditRole, 1);
+        ui->ap->setItem(row,1,tmp);
+        ui->ap->setItem(row,2,new QTableWidgetItem(ssid));
+    }
+    else{
+        QTableWidgetItem* beaconCount = ui->ap->item(exist.at(0)->row(),1);
+        beaconCount->setData(Qt::EditRole, beaconCount->data(Qt::EditRole).toInt() + 1);
+    }
 }
 
 void Output::exist_add(QString addr, QString ssid)
 {
-    QList<QTableWidgetItem*> exist = ui->ap->findItems(addr,Qt::MatchContains);
-    QTableWidgetItem* beaconCount = ui->ap->itemAt(exist.at(0)->row(),1);
-    beaconCount->setData(Qt::EditRole, beaconCount->data(Qt::EditRole).toInt() + 1);
+
 }
 
 void Output::error_print(std::runtime_error &e)
