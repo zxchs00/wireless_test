@@ -5,6 +5,11 @@ MySniff::MySniff(QObject *parent) : QObject(parent)
 
 }
 
+MySniff::~MySniff()
+{
+    std::cout << "bye" << std::endl;
+}
+
 void MySniff::run(const std::string &iface)
 {
     SnifferConfiguration config;
@@ -14,7 +19,6 @@ void MySniff::run(const std::string &iface)
     Sniffer sniffer(iface, config);
     std::cout << "hi" << std::endl;
     sniffer.sniff_loop(make_sniffer_handler(this, &MySniff::callback));
-    std::cout << "bye" << std::endl;
 }
 
 bool MySniff::callback(PDU &pdu)
@@ -25,20 +29,14 @@ bool MySniff::callback(PDU &pdu)
     if (!beacon.from_ds() && !beacon.to_ds()) {
         // Get the AP address
         address_type addr = beacon.addr2();
+        int ch = beacon.ds_parameter_set();
         // Look it up in our set
-        ssids_type::iterator it = ssids.find(addr);
+        //ssids_type::iterator it = ssids.find(addr);
         try {
             std::string ssid = beacon.ssid();
 
-            if (it == ssids.end()) {
-                ssids.insert(addr);
-                emit add_new(QString::fromStdString(addr.to_string()), QString::fromStdString(ssid));
-            }
-            else{
-                //std::cout << "exist" << std::endl;
-                emit add_new(QString::fromStdString(addr.to_string()), QString::fromStdString(ssid));
-
-            }
+            ssids.insert(addr);
+            emit add_new(QString::fromStdString(addr.to_string()), ch, QString::fromStdString(ssid));
 
         }
         catch (std::runtime_error& e) {

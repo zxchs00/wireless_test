@@ -20,7 +20,7 @@ Output::Output(QWidget *parent) :
 
 Output::~Output()
 {
-    workerThread.quit();
+    hello->quit();
     delete ui;
 }
 
@@ -28,20 +28,18 @@ void Output::startSniff()
 {
     this->toSniff->stop();
 
-    MySniff* noye = new MySniff();
+    noye = new MySniff();
     try{
-        QThread* hello = new QThread();
+        hello = new QThread();
         noye->moveToThread(hello);
         //workerThread.start();
         //connect(&workerThread, &QThread::finished, noye, &QObject::deleteLater);
 
         connect(this,SIGNAL(start_sniff(const std::string&)),noye,SLOT(run(const std::string&)));
-        connect(noye,SIGNAL(add_new(QString,QString)),this,SLOT(new_add(QString,QString)));
-        connect(noye,SIGNAL(add_exist(QString, QString)),this,SLOT(exist_add(QString,QString)));
+        connect(noye,SIGNAL(add_new(QString,int,QString)),this,SLOT(new_add(QString,int,QString)));
         connect(noye,SIGNAL(print_error(std::runtime_error&)),this,SLOT(error_print(std::runtime_error&)));
 
         hello->start();
-        //noye->run(ui->dev->text().toStdString());
         emit start_sniff(ui->dev->text().toStdString());
     }
     catch (std::runtime_error& e) {
@@ -61,6 +59,8 @@ void Output::on_start_clicked()
     // if you want to stop
     if(this->starting){
         ui->start->setText("Start");
+        noye->~MySniff();
+        hello->terminate();
     }
 
     // if you want to start
@@ -75,8 +75,8 @@ void Output::on_start_clicked()
 
         ui->start->setText("Stop");
 
-        QString a = ui->dev->text();
-        ui->ap2st->setText(a);
+        //QString a = ui->dev->text();
+        //ui->ap2st->setText(a);
 
         // start Qtimer to start sniffing at other thread
         toSniff->start(200);
@@ -90,7 +90,7 @@ void Output::on_start_clicked()
     this->starting = !(this->starting);
 }
 
-void Output::new_add(QString addr, QString ssid)
+void Output::new_add(QString addr, int ch, QString ssid)
 {
     QList<QTableWidgetItem*> exist = ui->ap->findItems(addr,Qt::MatchExactly);
     if(exist.empty()){
@@ -100,17 +100,13 @@ void Output::new_add(QString addr, QString ssid)
         QTableWidgetItem* tmp = new QTableWidgetItem();
         tmp->setData(Qt::EditRole, 1);
         ui->ap->setItem(row,1,tmp);
-        ui->ap->setItem(row,2,new QTableWidgetItem(ssid));
+        ui->ap->setItem(row,2,new QTableWidgetItem(ch));
+        ui->ap->setItem(row,3,new QTableWidgetItem(ssid));
     }
     else{
         QTableWidgetItem* beaconCount = ui->ap->item(exist.at(0)->row(),1);
         beaconCount->setData(Qt::EditRole, beaconCount->data(Qt::EditRole).toInt() + 1);
     }
-}
-
-void Output::exist_add(QString addr, QString ssid)
-{
-
 }
 
 void Output::error_print(std::runtime_error &e)

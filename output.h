@@ -24,7 +24,7 @@ class Output;
 class Output : public QWidget
 {
     Q_OBJECT
-    QThread workerThread;
+    QThread* hello;
 public:
     explicit Output(QWidget *parent = 0);
     ~Output();
@@ -35,8 +35,7 @@ public slots:
 private slots:
     void startSniff();
     void on_start_clicked();
-    void new_add(QString addr, QString ssid);
-    void exist_add(QString addr, QString ssid);
+    void new_add(QString addr, int ch, QString ssid);
     void error_print(std::runtime_error& e);
 
 private:
@@ -44,6 +43,7 @@ private:
     Ui::Output *ui;
     bool starting = false;
     QTimer* toSniff;
+    MySniff* noye;
     //QString apTitle = "BSSID\tbeacon\tSSID\n";
 };
 

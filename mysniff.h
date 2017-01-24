@@ -13,11 +13,11 @@ class MySniff : public QObject
     Q_OBJECT
 public:
     explicit MySniff(QObject *parent = 0);
+    ~MySniff();
 
 signals:
-    void add_new(QString addr, QString ssid);
+    void add_new(QString addr, int ch, QString ssid);
     void print_error(std::runtime_error& e);
-    void add_exist(QString addr, QString ssid);
 
 public slots:
     void run(const std::string& iface);
