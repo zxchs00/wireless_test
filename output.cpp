@@ -100,7 +100,7 @@ void Output::new_add(QString addr, int ch, QString ssid)
         QTableWidgetItem* tmp = new QTableWidgetItem();
         tmp->setData(Qt::EditRole, 1);
         ui->ap->setItem(row,1,tmp);
-        ui->ap->setItem(row,2,new QTableWidgetItem(ch));
+        ui->ap->setItem(row,2,new QTableWidgetItem(QString::number(ch)));
         ui->ap->setItem(row,3,new QTableWidgetItem(ssid));
     }
     else{
