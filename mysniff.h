@@ -20,13 +20,15 @@ signals:
     void print_error(std::runtime_error& e);
 
 public slots:
-    void run(const std::string& iface);
+    void run(const std::string& iface, QString ch, QString bs);
     bool callback(PDU& pdu);
 
 private:
     typedef Dot11::address_type address_type;
     typedef std::set<address_type> ssids_type;
     ssids_type ssids;
+    QString f_ch;
+    QString f_bs;
 };
 
 #endif // MYSNIFF_H

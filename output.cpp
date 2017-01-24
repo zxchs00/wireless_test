@@ -13,6 +13,7 @@ Output::Output(QWidget *parent) :
     QObject::connect(toSniff,SIGNAL(timeout()),this,SLOT(startSniff()));
 
     ui->ap->horizontalHeader()->setStretchLastSection(true);
+    ui->ap->horizontalHeader()->resizeSection(0,180);
     ui->ap->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     qRegisterMetaType<std::string>();
@@ -27,7 +28,7 @@ Output::~Output()
 void Output::startSniff()
 {
     this->toSniff->stop();
-
+    ui->ap->setRowCount(0);
     noye = new MySniff();
     try{
         hello = new QThread();
@@ -35,12 +36,12 @@ void Output::startSniff()
         //workerThread.start();
         //connect(&workerThread, &QThread::finished, noye, &QObject::deleteLater);
 
-        connect(this,SIGNAL(start_sniff(const std::string&)),noye,SLOT(run(const std::string&)));
+        connect(this,SIGNAL(start_sniff(const std::string&,QString,QString)),noye,SLOT(run(const std::string&,QString,QString)));
         connect(noye,SIGNAL(add_new(QString,int,QString)),this,SLOT(new_add(QString,int,QString)));
         connect(noye,SIGNAL(print_error(std::runtime_error&)),this,SLOT(error_print(std::runtime_error&)));
 
         hello->start();
-        emit start_sniff(ui->dev->text().toStdString());
+        emit start_sniff(ui->dev->text().toStdString(), ui->ch->text(), ui->bssid->text());
     }
     catch (std::runtime_error& e) {
         noye->~QObject();

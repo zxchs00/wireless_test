@@ -29,7 +29,7 @@ public:
     explicit Output(QWidget *parent = 0);
     ~Output();
 signals:
-    void start_sniff(const std::string& iface);
+    void start_sniff(const std::string& iface, QString ch, QString bs);
 public slots:
 
 private slots:
