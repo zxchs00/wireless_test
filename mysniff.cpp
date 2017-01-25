@@ -45,7 +45,7 @@ bool MySniff::callback(PDU &pdu)
             std::string ssid = beacon.ssid();
 
             ssids.insert(addr);
-            emit add_new(QString::fromStdString(addr.to_string()), ch, QString::fromStdString(ssid));
+            emit add_new(QString::fromStdString(addr.to_string()), ch, QString::fromLocal8Bit(ssid.c_str()));
 
         }
         catch (std::runtime_error& e) {
